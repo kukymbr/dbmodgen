@@ -5,8 +5,8 @@
 
 The `dbmodgen` generates row-based models from the existing database structure.
 
-Based on the code of the [genna](https://github.com/dizzyfool/genna), 
-edited to a more simplified version, generating models without the `go-pg` (nor other ORM) direct integration.
+Based on the code of the [genna](https://github.com/dizzyfool/genna),
+edited to be a more simplified version, generating models without the `go-pg` (nor other ORM) direct integration.
 Just the `db` struct tag (or any other you like) and freedom of the further usage.
 
 Current RDBMS support:
@@ -52,8 +52,8 @@ type User struct {
 	CreatedAt time.Time `db:"created_at"`
 	UpdatedAt time.Time `db:"updated_at"`
 }
-
 ```
+
 ## Installation
 
 The go 1.24 is a minimal requirement for the `dbmodgen`, so the `go tool` is a preferred way to install:
@@ -72,12 +72,12 @@ go get -tool github.com/kukymbr/dbmodgen/cmd/dbmodgen@latest
    package_name: repository
    " > dbmodel.yaml
    ```
-    
-   > See the available options in the [options.go](internal/generator/options.go) struct definition. 
+
+   > See the available options in the [options.go](internal/generator/options.go) struct definition.
    > Also, this step could be skipped: all default values will be applied.
 
 2. Add the `go:generate` directive somewhere in your go files:
-   
+
    ```go
    //go:generate go tool dbmodgen --config=/path/to/dbmodel.yaml
    ```
@@ -107,6 +107,10 @@ Flags:
 ## Contributing
 
 Please refer the [CONTRIBUTING.md](CONTRIBUTING.md) doc.
+
+## TODO
+
+-[ ] Custom tags to column mapping
 
 ## License
 
