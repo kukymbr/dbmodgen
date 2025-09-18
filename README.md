@@ -110,7 +110,10 @@ Please refer the [CONTRIBUTING.md](CONTRIBUTING.md) doc.
 
 ## TODO
 
--[ ] Custom tags to column mapping
+- [ ] Custom tags to column mapping
+- [ ] Custom types option
+- [ ] JSONTypes option
+- [ ] Nullable uuid.UUID behavior
 
 ## License
 
