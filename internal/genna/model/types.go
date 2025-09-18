@@ -76,7 +76,7 @@ const (
 	// TypeDuration is a go type
 	TypeDuration = "time.Duration"
 	// TypeMapInterface is a go type
-	TypeMapInterface = "map[string]interface{}"
+	TypeMapInterface = "map[string]any"
 	// TypeMapString is a go type
 	TypeMapString = "map[string]string"
 	// TypeIP is a go type

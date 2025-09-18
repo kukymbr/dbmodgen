@@ -115,6 +115,8 @@ Please refer the [CONTRIBUTING.md](CONTRIBUTING.md) doc.
 - [ ] JSONTypes option
 - [ ] Nullable uuid.UUID behavior
 - [ ] Remove genna some day, add other dialect drivers
+- [ ] Fewer dependencies (e.g. remove go-pg at all)
+- [ ] YAML config schema
 
 ## License
 
