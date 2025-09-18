@@ -9,7 +9,6 @@ import (
 	"github.com/kukymbr/dbmodgen/internal/genna/util"
 )
 
-// Genna is a struct should be embedded to custom generator when genna used as a library
 type Genna struct {
 	url string
 

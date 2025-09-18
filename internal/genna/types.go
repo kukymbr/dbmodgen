@@ -195,12 +195,8 @@ func NewTemplateRelation(relation model.Relation, options Options, tagName strin
 	tags := util.NewAnnotation()
 	tags.AddTag(tagName, "-")
 
-	if options.GoPgVer >= 10 {
-		tags.AddTag("pg", "rel:has-one")
-	}
-
 	if len(relation.FKFields) > 1 {
-		comment = "// unsupported"
+		comment = "// combined FK are not supported"
 
 	}
 
@@ -243,11 +239,4 @@ func jsonType(mp map[string]string, schema, table, field string) (string, bool) 
 	}
 
 	return "", false
-}
-
-func tagName(options Options) string {
-	if options.GoPgVer == 8 {
-		return "sql"
-	}
-	return "pg"
 }
