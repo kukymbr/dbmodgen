@@ -114,6 +114,7 @@ Please refer the [CONTRIBUTING.md](CONTRIBUTING.md) doc.
 - [ ] Custom types option
 - [ ] JSONTypes option
 - [ ] Nullable uuid.UUID behavior
+- [ ] Remove genna some day, add other dialect drivers
 
 ## License
 
