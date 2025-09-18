@@ -67,7 +67,8 @@ go get -tool github.com/kukymbr/dbmodgen/cmd/dbmodgen@latest
 The `dbmodgen --help` output:
 
 ```text
-Generates models from the existing database
+Generates models from the existing database.
+DBMODGEN_DSN environment variable is mandatory to specify the database DSN.
 
 Usage:
   dbmodgen [flags]

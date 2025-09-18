@@ -30,7 +30,8 @@ func run() error {
 	var cmd = &cobra.Command{
 		Use:   "dbmodgen",
 		Short: "DB models generator",
-		Long:  `Generates models from the existing database`,
+		Long: `Generates models from the existing database.
+DBMODGEN_DSN environment variable is mandatory to specify the database DSN.`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 			defer cancel()
