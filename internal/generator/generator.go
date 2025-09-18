@@ -56,7 +56,7 @@ func (g *Generator) Generate(ctx context.Context) error {
 			Tables:  g.opt.Tables,
 
 			UseSQLNulls: g.opt.UseSQLNulls,
-			CustomTypes: nil, // TODO
+			CustomTypes: model.CustomTypeMapping{}, // TODO
 			NoAlias:     true,
 			NoDiscard:   true,
 			AddJSONTag:  true,

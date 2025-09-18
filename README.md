@@ -6,7 +6,7 @@
 The `dbmodgen` generates row-based models from the existing database structure.
 
 Based on the code of the [genna](https://github.com/dizzyfool/genna), 
-rewritten into the simplified version, generating thin models without the `go-pg` (nor other ORM) direct integration.
+edited to a more simplified version, generating models without the `go-pg` (nor other ORM) direct integration.
 Just the `db` struct tag (or any other you like) and freedom of the further usage.
 
 Current RDBMS support:

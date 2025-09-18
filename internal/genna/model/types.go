@@ -66,6 +66,7 @@ const (
 	TypeFloat64 = "float64"
 	// TypeString is a go type
 	TypeString = "string"
+	TypeUUID   = "uuid.UUID"
 	// TypeByteSlice is a go type
 	TypeByteSlice = "[]byte"
 	// TypeBool is a go type
@@ -98,7 +99,9 @@ func GoType(pgType string) (string, error) {
 		return TypeFloat32, nil
 	case TypePGNumeric, TypePGFloat8:
 		return TypeFloat64, nil
-	case TypePGText, TypePGVarchar, TypePGUuid, TypePGBpchar, TypePGPoint:
+	case TypePGUuid:
+		return TypeUUID, nil
+	case TypePGText, TypePGVarchar, TypePGBpchar, TypePGPoint:
 		return TypeString, nil
 	case TypePGBytea:
 		return TypeByteSlice, nil
@@ -189,7 +192,7 @@ func GoImport(pgType string, nullable, useSQLNull bool) string {
 		case TypePGInt2, TypePGInt4, TypePGInt8,
 			TypePGNumeric, TypePGFloat4, TypePGFloat8,
 			TypePGBool,
-			TypePGText, TypePGVarchar, TypePGUuid, TypePGBpchar, TypePGPoint:
+			TypePGText, TypePGVarchar, TypePGUuid /* TODO */, TypePGBpchar, TypePGPoint:
 			return "database/sql"
 		case TypePGTimestamp, TypePGTimestamptz, TypePGDate, TypePGTime, TypePGTimetz:
 			// TODO
@@ -201,6 +204,8 @@ func GoImport(pgType string, nullable, useSQLNull bool) string {
 		return "net"
 	case TypePGTimestamp, TypePGTimestamptz, TypePGDate, TypePGTime, TypePGTimetz, TypePGInterval:
 		return "time"
+	case TypePGUuid:
+		return "github.com/google/uuid"
 	}
 
 	return ""
