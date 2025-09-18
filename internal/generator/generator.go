@@ -30,7 +30,7 @@ func New(opt Options) (*Generator, error) {
 	return &Generator{
 		opt:       opt,
 		formatter: f,
-		genna:     genna.New(opt.DSN, log.Default()),
+		genna:     genna.New(opt.DSN, log.Default() /* FIXME */),
 	}, nil
 }
 

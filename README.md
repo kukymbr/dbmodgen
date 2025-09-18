@@ -67,11 +67,16 @@ go get -tool github.com/kukymbr/dbmodgen/cmd/dbmodgen@latest
 The `dbmodgen --help` output:
 
 ```text
-Generates structured SQL getters in go code.
-See https://github.com/kukymbr/dbmodgen for info.
+Generates models from the existing database
 
 Usage:
   dbmodgen [flags]
+
+Flags:
+  -c, --config string   Target package name of the generated code
+  -h, --help            help for dbmodgen
+  -s, --silent          Silent mode
+  -v, --version         version for dbmodgen
 ```
 
 ## License
