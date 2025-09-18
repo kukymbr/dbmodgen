@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/kukymbr/dbmodgen/internal/formatter"
 	gennautil "github.com/kukymbr/dbmodgen/internal/genna/util"
 	"github.com/kukymbr/dbmodgen/internal/util"
 	"gopkg.in/yaml.v3"
@@ -15,31 +14,10 @@ const (
 	DefaultPackageName = "dbmodel"
 	DefaultTargetFile  = "internal/" + DefaultPackageName + "/model.gen.go"
 	DefaultFieldTag    = "db"
+	DefaultFormatter   = "gofmt"
 
 	EnvDSN = "DBMODGEN_DSN"
 )
-
-func ReadOptions(path string, getEnv func(string) string) (Options, error) {
-	dsn := getEnv(EnvDSN)
-	if dsn == "" {
-		return Options{}, fmt.Errorf("no DBMODGEN_DSN environment variable is provided")
-	}
-
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return Options{}, fmt.Errorf("failed to read options file: %w", err)
-	}
-
-	var opt Options
-
-	if err := yaml.Unmarshal(data, &opt); err != nil {
-		return Options{}, fmt.Errorf("failed to parse options file: %w", err)
-	}
-
-	opt.DSN = dsn
-
-	return opt, nil
-}
 
 type Options struct {
 	// DSN is a database connection URL.
@@ -69,6 +47,30 @@ type Options struct {
 	UseSQLNulls bool `json:"use_sql_nulls" yaml:"use_sql_nulls"`
 }
 
+func ReadOptions(path string, getEnv func(string) string) (Options, error) {
+	dsn := getEnv(EnvDSN)
+	if dsn == "" {
+		return Options{}, fmt.Errorf("no DBMODGEN_DSN environment variable is provided")
+	}
+
+	var opt Options
+
+	if path != "" {
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return Options{}, fmt.Errorf("failed to read options file: %w", err)
+		}
+
+		if err := yaml.Unmarshal(data, &opt); err != nil {
+			return Options{}, fmt.Errorf("failed to parse options file: %w", err)
+		}
+	}
+
+	opt.DSN = dsn
+
+	return opt, nil
+}
+
 func (opt Options) Debug() string {
 	encoded, err := yaml.Marshal(opt)
 	if err != nil {
@@ -96,7 +98,7 @@ func prepareOptions(opt *Options) error {
 	}
 
 	if opt.Formatter == "" {
-		opt.Formatter = formatter.DefaultFormatter
+		opt.Formatter = DefaultFormatter
 	}
 
 	if len(opt.Tables) == 0 {

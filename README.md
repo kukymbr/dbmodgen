@@ -64,6 +64,30 @@ go get -tool github.com/kukymbr/dbmodgen/cmd/dbmodgen@latest
 
 ## Usage
 
+1. First, create the config file in the YAML format:
+
+   ```shell
+   echo "
+   target_file: internal/repository/model.gen.go
+   package_name: repository
+   " > dbmodel.yaml
+   ```
+    
+   > See the available options in the [options.go](internal/generator/options.go) struct definition. 
+   > Also, this step could be skipped: all default values will be applied.
+
+2. Add the `go:generate` directive somewhere in your go files:
+   
+   ```go
+   //go:generate go tool dbmodgen --config=/path/to/dbmodel.yaml
+   ```
+
+3. Run the `go generate` with `DBMODGEN_DSN` variable defined:
+
+   ```shell
+   DBMODGEN_DSN="postgres://postgres:postgres@localhost:5432/postgres" go generate
+   ```
+
 The `dbmodgen --help` output:
 
 ```text
@@ -79,6 +103,10 @@ Flags:
   -s, --silent          Silent mode
   -v, --version         version for dbmodgen
 ```
+
+## Contributing
+
+Please refer the [CONTRIBUTING.md](CONTRIBUTING.md) doc.
 
 ## License
 

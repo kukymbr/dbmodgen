@@ -8,8 +8,6 @@ import (
 const (
 	GoFmt = "gofmt"
 	Noop  = "noop"
-
-	DefaultFormatter = GoFmt
 )
 
 func Factory(name string) (Formatter, error) {

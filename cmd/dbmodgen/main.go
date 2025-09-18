@@ -72,5 +72,4 @@ func initFlags(cmd *cobra.Command, configPath *string, silent *bool) {
 	)
 
 	_ = cmd.MarkFlagRequired("conf")
-	_ = cmd.MarkFlagFilename("conf")
 }

@@ -9,6 +9,9 @@ GO_BUILD_LDFLAGS := "-X $(VERSION_PACKAGE).Version=$(GIT_VERSION) \
                 -X $(VERSION_PACKAGE).BuiltAt=$(shell date -u +%Y%m%d%H%M%S)"
 GO_BUILD_ARGS := $(build_arguments) --ldflags $(GO_BUILD_LDFLAGS)
 
+DB_PORT := 5432
+DB_DSN := "postgres://postgres:postgres@localhost:$(DB_PORT)/postgres?sslmode=disable"
+
 all:
 	$(MAKE) clean
 	$(MAKE) prepare
@@ -49,3 +52,6 @@ test_short:
 
 clean:
 	go clean
+
+generate_example:
+	DBMODGEN_DSN=$(DB_DSN) go generate ./example/generate.go
