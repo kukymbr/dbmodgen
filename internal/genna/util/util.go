@@ -1,19 +1,12 @@
 package util
 
 import (
-	"fmt"
 	"strings"
 )
 
 const (
 	// PublicSchema is a default postgresql schema
 	PublicSchema = "public"
-
-	// DefaultPackage is a default package name
-	DefaultPackage = "model"
-
-	// DefaultAlias is a default alias for model
-	DefaultAlias = "t"
 )
 
 // Split splits full table name in schema and table name
@@ -38,25 +31,6 @@ func JoinF(schema, table string) string {
 	}
 
 	return Join(schema, table)
-}
-
-// Quoted quotes entity name if needed
-func Quoted(fullName string, escape bool) string {
-	if !HasUpper(fullName) {
-		return fullName
-	}
-
-	pattern := `"%s"`
-	if escape {
-		pattern = `\"%s\"`
-	}
-
-	d := strings.Split(fullName, ".")
-	if len(d) < 2 {
-		return fmt.Sprintf(pattern, fullName)
-	}
-
-	return Join(fmt.Sprintf(pattern, d[0]), fmt.Sprintf(pattern, d[1]))
 }
 
 // Schemas get schemas from table names

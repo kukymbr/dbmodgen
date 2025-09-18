@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/kukymbr/dbmodgen/internal/formatter"
 	"github.com/kukymbr/dbmodgen/internal/generator/templates"
@@ -74,8 +73,7 @@ func (g *Generator) Generate(ctx context.Context) error {
 
 	content := g.format(ctx, buffer.Bytes())
 
-	//nolint:gosec
-	if err := os.WriteFile(g.opt.TargetFile, content, 0755); err != nil {
+	if err := util.WriteFile(g.opt.TargetFile, content); err != nil {
 		return fmt.Errorf("failed to write target file %s: %w", g.opt.TargetFile, err)
 	}
 

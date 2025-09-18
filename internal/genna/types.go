@@ -130,7 +130,6 @@ func NewTemplateEntity(entity model.Entity, options Options, tagName string) Tem
 		Tag:    template.HTML(fmt.Sprintf("`%s`", tags.String())),
 
 		NoAlias: options.NoAlias,
-		Alias:   util.DefaultAlias,
 
 		Columns: columns,
 
