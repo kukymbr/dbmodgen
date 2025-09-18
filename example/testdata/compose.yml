@@ -1,0 +1,19 @@
+services:
+
+  dbmodgen_example_db:
+    container_name: dbmodgen_example_db
+    hostname: dbmodgen_example_db
+    image: postgres:15-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:${DB_HOST_PORT:-5432}:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'" ]
+      interval: 2s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - ./init_database.sql:/docker-entrypoint-initdb.d/001_init_database.sql

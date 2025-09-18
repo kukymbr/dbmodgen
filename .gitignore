@@ -3,3 +3,6 @@
 
 # Coverage
 /coverage*
+
+# Envs
+.env
