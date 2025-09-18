@@ -24,5 +24,5 @@ func Factory(name string) (Formatter, error) {
 }
 
 type Formatter interface {
-	Format(ctx context.Context, dirPath string) error
+	Format(ctx context.Context, content []byte) ([]byte, error)
 }

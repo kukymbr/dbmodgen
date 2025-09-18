@@ -47,6 +47,7 @@ linters:
       - std-error-handling
     paths:
       - example$
+      - "internal/genna/.*" # This will take years to fix this dir :|
 formatters:
   exclusions:
     generated: lax

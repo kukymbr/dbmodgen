@@ -1,0 +1,2 @@
+target_file: internal/repository/model.gen.go
+package_name: repository

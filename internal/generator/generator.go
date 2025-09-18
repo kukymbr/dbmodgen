@@ -1,10 +1,16 @@
 package generator
 
 import (
+	"bytes"
 	"context"
+	"fmt"
+	"log"
+	"os"
 
 	"github.com/kukymbr/dbmodgen/internal/formatter"
-	"github.com/kukymbr/dbmodgen/internal/generator/types"
+	"github.com/kukymbr/dbmodgen/internal/generator/templates"
+	"github.com/kukymbr/dbmodgen/internal/genna"
+	"github.com/kukymbr/dbmodgen/internal/genna/model"
 	"github.com/kukymbr/dbmodgen/internal/util"
 	"github.com/kukymbr/dbmodgen/internal/version"
 )
@@ -25,32 +31,66 @@ func New(opt Options) (*Generator, error) {
 	return &Generator{
 		opt:       opt,
 		formatter: f,
+		genna:     genna.New(opt.DSN, log.Default()),
 	}, nil
 }
 
 type Generator struct {
 	opt       Options
 	formatter formatter.Formatter
+
+	genna *genna.Genna
 }
 
 func (g *Generator) Generate(ctx context.Context) error {
-	panic("not implemented")
-}
-
-func (g *Generator) newGenericData() types.GenericData {
-	d := types.GenericData{
-		Package:  g.opt.PackageName,
-		FieldTag: g.opt.FieldTag,
-		Version:  version.GetVersion(),
+	entities, err := g.genna.Read(g.opt.Tables, false, g.opt.UseSQLNulls, model.CustomTypeMapping{} /* TODO */)
+	if err != nil {
+		return fmt.Errorf("failed to read entities from database: %w", err)
 	}
 
-	return d
+	tplData := modelTplData{
+		TemplatePackage: genna.NewTemplatePackage(entities, genna.Options{
+			URL:     g.opt.DSN,
+			Output:  g.opt.TargetFile,
+			Package: g.opt.PackageName,
+			Tables:  g.opt.Tables,
+
+			UseSQLNulls: g.opt.UseSQLNulls,
+			CustomTypes: nil, // TODO
+			NoAlias:     true,
+			NoDiscard:   true,
+			AddJSONTag:  true,
+			JSONTypes:   nil, // TODO
+		}, g.opt.FieldTag),
+
+		Version: version.GetVersion(),
+	}
+
+	var buffer bytes.Buffer
+
+	if err := templates.ExecuteModelTemplate(&buffer, tplData); err != nil {
+		return err
+	}
+
+	content := g.format(ctx, buffer.Bytes())
+
+	//nolint:gosec
+	if err := os.WriteFile(g.opt.TargetFile, content, 0755); err != nil {
+		return fmt.Errorf("failed to write target file %s: %w", g.opt.TargetFile, err)
+	}
+
+	return nil
 }
 
-func (g *Generator) format(ctx context.Context) {
-	util.PrintDebugf("Formatting %s...", g.opt.TargetDir)
+func (g *Generator) format(ctx context.Context, content []byte) []byte {
+	util.PrintDebugf("Formatting generated code...")
 
-	if err := g.formatter.Format(ctx, g.opt.TargetDir); err != nil {
+	formatted, err := g.formatter.Format(ctx, content)
+	if err != nil {
 		util.PrintWarningf("Failed to format generated code: %s", err.Error())
+
+		return content
 	}
+
+	return formatted
 }
