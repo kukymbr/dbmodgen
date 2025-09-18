@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/kukymbr/dbmodgen/internal/formatter"
 	"github.com/kukymbr/dbmodgen/internal/generator/templates"
@@ -30,7 +29,7 @@ func New(opt Options) (*Generator, error) {
 	return &Generator{
 		opt:       opt,
 		formatter: f,
-		genna:     genna.New(opt.DSN, log.Default() /* FIXME */),
+		genna:     genna.New(opt.DSN, newGennaLogger()),
 	}, nil
 }
 
