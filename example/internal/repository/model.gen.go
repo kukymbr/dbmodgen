@@ -18,3 +18,11 @@ type User struct {
 	CreatedAt time.Time `db:"created_at" json:"created_at"`
 	UpdatedAt time.Time `db:"updated_at" json:"updated_at"`
 }
+
+type UsersSetting struct {
+	UserID      uuid.UUID      `db:"user_id" json:"user_id"`
+	StartupPage *string        `db:"startup_page" json:"startup_page"`
+	Theme       map[string]any `db:"theme" json:"theme"`
+
+	User *User `db:"-" json:"user"`
+}

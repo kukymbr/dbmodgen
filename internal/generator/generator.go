@@ -58,6 +58,8 @@ func (g *Generator) Generate(ctx context.Context) error {
 			NoAlias:     true,
 			NoDiscard:   true,
 			AddJSONTag:  true,
+			FollowFKs:   true,
+			KeepPK:      true,
 			JSONTypes:   nil, // TODO
 		}, g.opt.FieldTag),
 

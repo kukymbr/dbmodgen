@@ -9,3 +9,12 @@ CREATE TABLE public.users
 );
 CREATE UNIQUE INDEX users_email_unique ON users USING BTREE (email);
 
+CREATE TABLE public.users_settings
+(
+    user_id      UUID PRIMARY KEY NOT NULL,
+    startup_page CHARACTER VARYING(255) DEFAULT 'index',
+    theme        JSONB,
+    FOREIGN KEY (user_id) REFERENCES public.users (id)
+        MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE
+);
+
